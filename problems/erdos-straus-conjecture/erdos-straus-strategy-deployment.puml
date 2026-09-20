@@ -1,0 +1,108 @@
+@startuml erdos-straus-strategy-deployment
+title Erdős–Straus 추측(ESC) #12 첨부 문서별 풀이 방향성 진화 과정\n(Evolution of Proof Strategy across #12 Attachments)
+
+skinparam handwritten false
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam defaultFontName "Malgun Gothic", "NanumGothic", "Segoe UI", sans-serif
+skinparam defaultFontSize 12
+skinparam dpi 150
+
+skinparam package {
+    BackgroundColor #F8FAFC
+    BorderColor #64748B
+    BorderThickness 1.5
+    FontColor #0F172A
+    FontStyle bold
+}
+
+skinparam card {
+    BackgroundColor #FFFFFF
+    BorderColor #94A3B8
+    BorderThickness 1
+}
+
+skinparam note {
+    BackgroundColor #FEF3C7
+    BorderColor #D97706
+    FontColor #78350F
+    FontSize 11
+}
+
+skinparam arrow {
+    Color #2563EB
+    Thickness 2
+    FontColor #1E40AF
+    FontSize 11
+}
+
+' ==============================================================================
+' Phase 1: Local Combinatorial Analysis
+' ==============================================================================
+package "Phase 1: 국소 가법 조합론 및 구멍 수축 분석\n(2026-09-17 04:44Z)" as P1 {
+    card "첨부 파일:\n• erdos_straus_DCL_lemma_note.docx\n• erdos_straus_typeB_hole_contraction_lemma_note.docx" as P1_Files #EFF6FF
+
+    card "<b>[기본 프레임워크]</b>\n• Shifted-k 군 표현: G = ℤ/(p−1)ℤ, s = (p−1)/2\n• 부호합 집합: A = Σ [-e_i, e_i] a_i\n• Type-B 실패: <A> = G 이나 s ∉ A" as P1_Model
+
+    card "<b>[도출된 보조정리 - PROVED]</b>\n• Hole-Contraction Lemma: H_j = ⋂_{|d|≤e_j} (H_{j-1} + d·a_j)\n• Symmetry-Contraction: |H_j| ≤ |H_{j-1}| − 2\n• Exponent-Budget: 3^ω(M_p) ≥ p − 2\n• Kneser 덧셈 정리를 통한 안정자(Stab) 구조 분석" as P1_Lemmas
+
+    card "<b>[한계점 및 병목 (Bottleneck)]</b>\n국소적 sumset 및 hole의 복잡도는 정밀 정량화되나,\n이것이 n의 전역적인 크기 하한(Global Size Cost)으로\n연결되지 않는 한계 노출" as P1_Limit #FEE2E2
+}
+
+' ==============================================================================
+' Phase 2: Corridor & Compression Program
+' ==============================================================================
+package "Phase 2: 연속 회랑과 접두사 압축 프로그램\n(2026-09-17 05:45Z)" as P2 {
+    card "첨부 파일:\n• erdos_straus_prefix_growth_compression_program_note.docx" as P2_Files #EFF6FF
+
+    card "<b>[패러다임 전환: Consecutive Corridor]</b>\n• 개별 n 귀납 탈피 → 연속 회랑 C_j = 6m + j (j=1..J)\n• 접두사 성장 목표: PGL (κ(n) > K ⇒ n ≥ F(K), F(K)/K → ∞)\n• 합성수 분기 해결: q|n, q≡3(mod 4) ⇒ n > K² [PROVED]" as P2_Corridor
+
+    card "<b>[핵심 메커니즘 구축 - PROVED]</b>\n• B1 Local Resource: Type-B 실패 시 QNR 소수 q ≥ 5 강제\n• B2 Resource Separation: 동일 q 재사용 시 q | (j − i)\n• Fixed-Resource Compression: QNR 잔여계 압축 → QR 패턴 생성\n• Compression Tree: 깊이 d 시 n ≥ 4·5^d − 4J + 1" as P2_Machinery
+
+    card "<b>[봉착한 장애물 (Dead Ends)]</b>\n• 역수 합(Σ 1/q) 발산으로 단순 피복(covering) 모순 도출 불가\n• QR 압축 노드가 후속 QNR 소수 인수를 보장하지 못함 (트리 중단)\n• 합성수 shift 확장(CRL-1, CRL-2, TAL)의 심각한 수학적 난도" as P2_Obstacles #FEE2E2
+}
+
+' ==============================================================================
+' Phase 3: Reduction to Single Core Arrow
+' ==============================================================================
+package "Phase 3: 단일 핵심 화살표로의 전면 단순화\n(2026-09-17 08:50Z)" as P3 {
+    card "첨부 파일:\n• erdos_straus_prefix_growth_core_argument.docx" as P3_Files #EFF6FF
+
+    card "<b>[군더더기 배제: Radical Reduction]</b>\n복잡한 보조 구조(DCL, Burgess Bias, Composite Sync 등)를\n잠시 배제하고, ESC 해결에 직결되는 '단 하나의 명제'로 집중" as P3_Reduction
+
+    card "<b>[단 하나의 핵심 목표: Single Core Arrow]</b>\n<b>F_1(n) ∧ ··· ∧ F_J(n)  ⇒  n = ω(J)</b>\n(좌측 최소 깊이 L(J) = min 𝒩_J → ∞)\n• 요구 강도 완화: n ≳ J log log J 정도의 어떤 초선형 하한도 충분\n• Hard prime n ≡ 1 (mod 24) 케이스만 해결하면 전체 종결" as P3_CoreArrow #DCFCE7
+
+    card "<b>[ESC 반례 배제 메커니즘]</b>\n고정된 반례 n₀ 존재 가정 ⇒ 모든 J에 대해 F_j(n₀) 성립\n⇒ n₀ ≥ L(J) 성립. 그러나 L(J) → ∞ 이므로 모순! ⇒ ESC 참" as P3_Skeleton
+}
+
+' ==============================================================================
+' Phase 4: Global Obstruction & ELC Architecture
+' ==============================================================================
+package "Phase 4: 전역 구간 장애(BCIL/CIT)와 종단 ELC 아키텍처\n(2026-09-17 14:53Z)" as P4 {
+    card "첨부 파일:\n• erdos_straus_BCIL_CIT_ELC_bridge_note.docx" as P4_Files #EFF6FF
+
+    card "<b>[선형 장벽(Linear Wall) 돌파 - PROVED]</b>\n• 과거 곱 기반 M = Ω(J) 한계 극복 (초등적 대수 구간 장애)\n• <b>BCIL:</b> 유계 여인수 집합 S_B = {r·p^a : r≤B}는 긴 연속 구간 불가\n• <b>CIT:</b> 후반 접두사 P_pp(M+j) > j 성립 시 M/J → ∞ 무조건 성립" as P4_BCIL_CIT #DCFCE7
+
+    card "<b>[단 하나의 열린 가교: ELC Conjecture - OPEN]</b>\n<b>F_1 ∧ ··· ∧ F_j  ⇒  P_pp(M + j) > j</b>\n(과거 실패 이력 F_1..F_{j-1}이 C_j의 최대 소수거듭제곱 크기를 강제)" as P4_ELC #FEF08A
+
+    card "<b>[최종 3단계 연역 파이프라인]</b>\n<b>ELC (Conjectural)</b>\n       ↓ [P_pp(M+j) > j 성립]\n<b>CIT / BCIL (Proved Theorem)</b>\n       ↓\n<b>M/J → ∞  ⇒  n = ω(J) (Prefix-Growth)</b>\n       ↓\n<b>Erdős–Straus 추측 (ESC) 완전 종결</b>" as P4_FinalPipeline #E0E7FF
+}
+
+' ==============================================================================
+' Transitions (Evolution Links)
+' ==============================================================================
+P1_Limit --> P2_Corridor : <b>[전환 1: 전역화]</b>\n국소 sumset 한계 극복 위해\n연속 회랑 C_j 및 접두사 성장(PGL) 도입
+
+P2_Obstacles --> P3_Reduction : <b>[전환 2: 단순화]</b>\n압축 트리의 교착/Dead End 이후\n복잡한 보조 이론을 털어내고\n단 하나의 핵심 화살표(n=ω(J))로 수렴
+
+P3_CoreArrow --> P4_BCIL_CIT : <b>[전환 3: 선형 장벽 돌파 및 구조 완성]</b>\n추상적 하한(n=ω(J))을\n초등적 구간 정리(BCIL/CIT)로 입증하고\n미증명 병목을 ELC 단 하나로 압축
+
+note right of P4_FinalPipeline
+  <b>현재 상태 요약 (Current Status):</b>
+  1. BCIL, CIT는 완전히 증명됨 (Unconditional).
+  2. ESC 해결의 모든 부담이 <b>ELC 명제</b> 하나로 완전히 일원화됨.
+  3. 향후 과제: C_j 소인수분해와 이전 실패 접두사(F_1..F_{j-1})를
+     결합하여 ELC를 증명하는 귀납/계통 분석에 집중.
+end note
+
+@enduml
